@@ -13,7 +13,7 @@ fun launchGoogleLogin(
     launcher: ActivityResultLauncher<android.content.Intent>
 ) {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken("클라이언트 아이디")
+        .requestIdToken("클라리언트 id")
         //클라이언트 id
         .requestEmail()
         .build()

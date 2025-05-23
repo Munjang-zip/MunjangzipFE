@@ -7,13 +7,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.munjangzip.R
 import com.example.munjangzip.ui.components.FishMessageCard
@@ -87,6 +90,16 @@ fun StartScreen(navController: NavController) {
                             .size(width = 280.dp, height = 56.dp)
                             .clickable { launchGoogleLogin(context, googleLauncher) }
                     )
+
                 }
+                //테스트용 우회 버튼 나중에 꼭 삭제 #########
+                Text(
+                    text = "건너뛰고 시작하기",
+                    modifier = Modifier
+                        .clickable { navController.navigate("userInfo") }
+                        .padding(top = 16.dp),
+                    color = Color.Gray,
+                    fontSize = 14.sp
+                )
             }
         }}}
