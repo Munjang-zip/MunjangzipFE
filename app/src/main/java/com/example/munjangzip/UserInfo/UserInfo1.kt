@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.munjangzip.R
 import com.example.munjangzip.ui.components.BasicButton
-import com.example.munjangzip.ui.components.FishInputField
+import com.example.munjangzip.ui.components.FishInputFieldLeft
 import com.example.munjanzipr.ui.theme.BGyellow
 
 @Composable
@@ -41,7 +41,7 @@ fun UserInfoScreen(navController: NavController) {
                         .padding(top = 16.dp, bottom = 48.dp)
                 )
                 // 물고기 입력 필드: 로고 아래
-                FishInputField(
+                FishInputFieldLeft(
                     label = "도서관 이름을 적어주세요 : )",
                     value = libraryName,
                     onValueChange = { libraryName = it }

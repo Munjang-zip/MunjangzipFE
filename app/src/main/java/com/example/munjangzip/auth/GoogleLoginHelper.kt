@@ -13,7 +13,7 @@ fun launchGoogleLogin(
     launcher: ActivityResultLauncher<android.content.Intent>
 ) {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken("클라리언트 id")
+        .requestIdToken("")
         //클라이언트 id
         .requestEmail()
         .build()
@@ -30,6 +30,6 @@ fun handleGoogleLoginResult(result: ActivityResult) {
         Log.d("GOOGLE", "로그인 성공. ID Token: $idToken")
         // TODO: 서버로 idToken POST
     } catch (e: ApiException) {
-        Log.e("GOOGLE", "로그인 실패: ${e.statusCode}")
+        Log.e("GOOGLE", "구글 로그인 실패: ${e.statusCode}")
     }
 }
