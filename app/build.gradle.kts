@@ -65,4 +65,13 @@ dependencies {
 
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
+    // Retrofit core
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+
+    // JSON 변환용 Gson Converter
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+
+    // 코루틴을 쓸 경우 (옵션)
+    implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+
 }

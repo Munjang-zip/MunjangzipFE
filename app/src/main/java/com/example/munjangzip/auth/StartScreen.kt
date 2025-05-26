@@ -30,7 +30,7 @@ fun StartScreen(navController: NavController) {
     val googleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        handleGoogleLoginResult(result)
+        handleGoogleLoginResult(context,result)
     }
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
