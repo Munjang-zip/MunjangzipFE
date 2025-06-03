@@ -30,8 +30,12 @@ fun StartScreen(navController: NavController) {
     val googleLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        handleGoogleLoginResult(context,result)
+        handleGoogleLoginResult(context, result) {
+            //로그인 성공 시 이동
+            navController.navigate("userInfo")
+        }
     }
+
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.bg_basic),
@@ -92,14 +96,5 @@ fun StartScreen(navController: NavController) {
                     )
 
                 }
-                //테스트용 우회 버튼 나중에 꼭 삭제 #########
-                Text(
-                    text = "건너뛰고 시작하기",
-                    modifier = Modifier
-                        .clickable { navController.navigate("userInfo") }
-                        .padding(top = 16.dp),
-                    color = Color.Gray,
-                    fontSize = 14.sp
-                )
             }
         }}}

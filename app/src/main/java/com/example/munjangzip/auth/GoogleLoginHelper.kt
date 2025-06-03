@@ -1,15 +1,15 @@
 //구글 로그인 처리 + 구글 로그인 서버 POST
 package com.example.munjangzip.feature.auth
-
 import android.content.Context
 import android.content.Intent
 import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import com.example.munjangzip.R
+import com.example.munjangzip.auth.TokenManager
 import com.example.munjangzip.model.JwtResponse
 import com.example.munjangzip.network.RetrofitClient
-import com.example.munjangzip.auth.TokenStorage
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -26,37 +26,26 @@ fun launchGoogleLogin(context: Context, launcher: ActivityResultLauncher<Intent>
     val googleSignInClient = GoogleSignIn.getClient(context, gso)
     launcher.launch(googleSignInClient.signInIntent)
 }
-fun handleGoogleLoginResult(context: Context, result: ActivityResult) {
+
+fun handleGoogleLoginResult(context: Context, result: ActivityResult, onSuccess: () -> Unit) {
     val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
     try {
         val account = task.getResult(ApiException::class.java)
-        val idToken = account.idToken ?: run {
-            Log.e("GOOGLE", "ID Token이 null입니다. 계정: ${account.email}")
-            return
-        }
+        val idToken = account.idToken ?: return
 
-        Log.d("GOOGLE", """
-            ✅ 구글 로그인 성공
-            ▶ Email: ${account.email}
-            ▶ Display Name: ${account.displayName}
-            ▶ ID Token: $idToken
-        """.trimIndent())
+        Log.d("GOOGLE", "✅ 구글 로그인 성공\n▶ Email: ${account.email}\n▶ Display Name: ${account.displayName}\n▶ ID Token: $idToken")
 
-        //서버에 id 토큰 전송
         RetrofitClient.api.loginWithGoogle(token = idToken)
             .enqueue(object : Callback<JwtResponse> {
                 override fun onResponse(call: Call<JwtResponse>, response: Response<JwtResponse>) {
                     Log.d("✅GOOGLE", "응답 전체: ${response.body()}")
-                    Log.d("✅GOOGLE", "상태 코드: ${response.code()}")
-
-                    if (response.isSuccessful) {
-                        val result = response.body()?.result
-                        if (result != null) {
-                            Log.d("✅GOOGLE", "로그인 응답에서 받은 refreshToken: ${result.refreshToken}")
-                            TokenStorage.saveTokens(context, result.accessToken, result.refreshToken)
-                        }
-
-                } else {
+                    if (response.isSuccessful && response.body()?.result != null) {
+                        val result = response.body()!!.result
+                        Log.d("✅TOKEN", "accessToken 저장됨: ${result.accessToken}")
+                        TokenManager.saveTokens(context, result.accessToken, result.refreshToken)
+                        // ✅ 성공 시 다음 화면으로 이동
+                        onSuccess()
+                    } else {
                         Log.w("GOOGLE", "서버 응답 실패: ${response.code()}")
                     }
                 }
@@ -69,4 +58,5 @@ fun handleGoogleLoginResult(context: Context, result: ActivityResult) {
     } catch (e: ApiException) {
         Log.e("GOOGLE", "로그인 실패: ${e.statusCode}", e)
     }
+
 }

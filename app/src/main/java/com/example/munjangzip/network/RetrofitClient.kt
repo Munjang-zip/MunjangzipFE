@@ -1,6 +1,7 @@
 // Retrofit 인스턴스 싱글톤 구성
 package com.example.munjangzip.network
 
+import android.util.Log
 import com.example.munjangzip.auth.TokenAuthenticator
 import com.example.munjangzip.auth.TokenManager
 import com.example.munjangzip.util.AppContextProvider
@@ -15,10 +16,20 @@ object RetrofitClient {
     private val authInterceptor = Interceptor { chain ->
         val accessToken = TokenManager.getAccessToken(AppContextProvider.context)
         val requestBuilder = chain.request().newBuilder()
+
         if (!accessToken.isNullOrEmpty()) {
-            requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+            val authHeader = "Bearer $accessToken"
+            requestBuilder.addHeader("Authorization", authHeader)
+
+            Log.d("✅HEADER", "Authorization: $authHeader")
+        } else {
+            Log.w("❌HEADER", "accessToken이 null 또는 비어있습니다.")
         }
-        chain.proceed(requestBuilder.build())
+
+        val request = requestBuilder.build()
+        Log.d("➡️REQUEST", "${request.method} ${request.url}")
+
+        chain.proceed(request)
     }
 
     private val client = OkHttpClient.Builder()

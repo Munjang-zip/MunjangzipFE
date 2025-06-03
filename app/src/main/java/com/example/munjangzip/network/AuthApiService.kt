@@ -26,7 +26,7 @@ interface AuthApiService {
 
     @POST("/member/register")
     fun registerUser(
-        @Body body: RegisterRequest
+        @Body request: RegisterRequest
     ): Call<RegisterResponse>
 
 

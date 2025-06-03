@@ -1,5 +1,6 @@
 package com.example.munjangzip.feature.user
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
@@ -13,9 +14,8 @@ import com.example.munjangzip.R
 import com.example.munjangzip.ui.components.BasicButton
 import com.example.munjangzip.ui.components.FishInputFieldBlue
 import com.example.munjanzipr.ui.theme.BGyellow
-
 @Composable
-fun UserInfoScreen2(navController: NavController) {
+fun UserInfoScreen2(navController: NavController, nickname: String?, libraryName: String?) {
     var nickName by remember { mutableStateOf("") }
 
     Scaffold(
@@ -40,7 +40,6 @@ fun UserInfoScreen2(navController: NavController) {
                         .width(400.dp)
                         .padding(top = 16.dp, bottom = 48.dp)
                 )
-                // 물고기 입력 필드: 로고 아래
                 FishInputFieldBlue(
                     label = "닉네임을 적어주세요 : )",
                     value = nickName,
@@ -53,12 +52,11 @@ fun UserInfoScreen2(navController: NavController) {
                     BasicButton(
                         text = "다음",
                         onClick = {
-                            // 사용자가 입력한 닉네임을 다음 화면(PetSelect)으로 전달
-                            navController.navigate("petSelect?nickname=${nickName}")
+                            Log.d("🐟USERINFO2", "전달하는 nickname: $nickName, libraryName: $libraryName")
+                            navController.navigate("petSelect?nickname=${nickName}&libraryName=${libraryName}")
                         }
                     )
                 }
-
             }
         }
     }
