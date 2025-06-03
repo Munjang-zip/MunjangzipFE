@@ -51,7 +51,9 @@ fun UserInfoScreen(navController: NavController) {
                 if (libraryName.isNotBlank()) {
                     BasicButton(
                         text = "다음",
-                        onClick = { navController.navigate("userInfo2") }
+                        onClick = { //도서관 입력 정보 넘기기
+                            navController.navigate("userInfo2?libraryName=$libraryName")
+                        }
                     )
                 }
 

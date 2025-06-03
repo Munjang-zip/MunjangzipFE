@@ -1,10 +1,10 @@
 package com.example.munjangzip.UserInfo.Pets
 
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,7 +20,8 @@ import com.example.munjangzip.ui.components.BasicButtonYellow
 import com.example.munjangzip.ui.components.FishMessageCard
 
 @Composable
-fun PetSelect(navController: NavController) {
+fun PetSelect(navController: NavController, nickname: String?, libraryName: String?) {
+    Log.d("🐰PETSELECT", "nickname = $nickname, libraryName = $libraryName")
     Box(modifier = Modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.bg_basic),
@@ -70,9 +71,7 @@ fun PetSelect(navController: NavController) {
                             BasicButton(
                                 text = "입양하기",
                                 onClick = {
-                                    selectedPet?.let {
-                                        navController.navigate("PetName/${it.name}")
-                                    }
+                                    navController.navigate("PetName/${pet.name}?nickname=$nickname&libraryName=$libraryName")
                                 }
                             )
 
