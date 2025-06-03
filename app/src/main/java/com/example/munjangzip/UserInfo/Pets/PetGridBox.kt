@@ -34,7 +34,7 @@ fun PetGridBox(
 ) {
     val petList = listOf(
         Pet("rabbit", R.drawable.rabbit),
-        Pet("fish_blue", R.drawable.fish_blue),
+        Pet("cat", R.drawable.cat),
         Pet("fish", R.drawable.fish),
         Pet("fish_blue", R.drawable.fish_blue),
         Pet("fish", R.drawable.fish),

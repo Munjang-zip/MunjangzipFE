@@ -11,4 +11,5 @@ val petList = listOf(
     Pet("fish", R.drawable.fish),
     Pet("fish_blue", R.drawable.fish_blue),
     Pet("rabbit", R.drawable.rabbit),
+    Pet("cat", R.drawable.cat),
 )

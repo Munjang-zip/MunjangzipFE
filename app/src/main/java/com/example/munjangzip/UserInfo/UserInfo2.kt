@@ -52,7 +52,10 @@ fun UserInfoScreen2(navController: NavController) {
                 if (nickName.isNotBlank()) {
                     BasicButton(
                         text = "다음",
-                        onClick = { navController.navigate("petSelect") }
+                        onClick = {
+                            // 사용자가 입력한 닉네임을 다음 화면(PetSelect)으로 전달
+                            navController.navigate("petSelect?nickname=${nickName}")
+                        }
                     )
                 }
 

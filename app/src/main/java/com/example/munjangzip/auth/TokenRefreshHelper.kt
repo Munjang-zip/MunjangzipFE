@@ -2,30 +2,25 @@
 package com.example.munjangzip.auth
 
 import android.content.Context
-import android.util.Log
 import com.example.munjangzip.model.RefreshResponse
 import com.example.munjangzip.network.RetrofitClient
 import retrofit2.Call
-import retrofit2.Callback
 import retrofit2.Response
 
-fun refreshTokenIfNeeded(context: Context) {
-    val refresh = TokenStorage.getRefreshToken(context) ?: return
+object TokenRefreshHelper {
+    fun refreshTokenBlocking(context: Context): String? {
+        val refreshToken = TokenManager.getRefreshToken(context) ?: return null
+        val call: Call<RefreshResponse> = RetrofitClient.api.refreshAccessToken(refreshToken)
 
-    RetrofitClient.api.refreshAccessToken(refresh)
-        .enqueue(object : Callback<RefreshResponse> {
-            override fun onResponse(call: Call<RefreshResponse>, response: Response<RefreshResponse>) {
-                if (response.isSuccessful) {
-                    val newTokens = response.body()?.result
-                    if (newTokens != null) {
-                        TokenStorage.saveTokens(context, newTokens.accessToken, newTokens.refreshToken)
-                        Log.d("AUTH", "토큰 갱신 완료")
-                    }
-                }
-            }
-
-            override fun onFailure(call: Call<RefreshResponse>, t: Throwable) {
-                Log.e("AUTH", "토큰 갱신 실패", t)
-            }
-        })
+        return try {
+            val response: Response<RefreshResponse> = call.execute()
+            if (response.isSuccessful && response.body()?.isSuccess == true) {
+                val result = response.body()!!.result
+                TokenManager.saveTokens(context, result.accessToken, result.refreshToken)
+                result.accessToken
+            } else null
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

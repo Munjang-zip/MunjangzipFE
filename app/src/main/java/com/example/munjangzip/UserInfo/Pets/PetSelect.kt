@@ -70,9 +70,8 @@ fun PetSelect(navController: NavController) {
                             BasicButton(
                                 text = "입양하기",
                                 onClick = {
-                                    selectedPet?.let {
-                                        navController.navigate("PetName/${it.name}")
-                                    }
+                                    // 닉네임, 도서관 이름전달
+                                    navController.navigate("PetName/${pet.name}?nickname=사용자닉네임&libraryName=도서관이름")
                                 }
                             )
 

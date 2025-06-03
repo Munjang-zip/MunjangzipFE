@@ -16,4 +16,9 @@ object TokenStorage {
         return context.getSharedPreferences("auth", Context.MODE_PRIVATE)
             .getString("refreshToken", null)
     }
+
+    fun getAccessToken(context: Context): String? {
+        return context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+            .getString("accessToken", null)
+    }
 }

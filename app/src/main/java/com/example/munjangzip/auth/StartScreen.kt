@@ -36,7 +36,7 @@ fun StartScreen(navController: NavController) {
         Image(
             painter = painterResource(id = R.drawable.bg_basic),
             contentDescription = "배경 이미지",
-            contentScale = ContentScale.Crop, //  화면 비율에 따라 꽉 채우기 (비율 유지하면서 확대)
+            contentScale = ContentScale.Crop, // 화면 비율에 따라 꽉 채우기 (비율 유지하면서 확대)
             modifier = Modifier.fillMaxSize()
         )
 

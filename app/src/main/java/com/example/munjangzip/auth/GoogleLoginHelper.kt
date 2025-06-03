@@ -1,4 +1,4 @@
-//구글 로그인 처리 + 서버 POST
+//구글 로그인 처리 + 구글 로그인 서버 POST
 package com.example.munjangzip.feature.auth
 
 import android.content.Context
@@ -42,43 +42,31 @@ fun handleGoogleLoginResult(context: Context, result: ActivityResult) {
             ▶ ID Token: $idToken
         """.trimIndent())
 
+        //서버에 id 토큰 전송
         RetrofitClient.api.loginWithGoogle(token = idToken)
             .enqueue(object : Callback<JwtResponse> {
                 override fun onResponse(call: Call<JwtResponse>, response: Response<JwtResponse>) {
+                    Log.d("✅GOOGLE", "응답 전체: ${response.body()}")
+                    Log.d("✅GOOGLE", "상태 코드: ${response.code()}")
+
                     if (response.isSuccessful) {
                         val result = response.body()?.result
                         if (result != null) {
+                            Log.d("✅GOOGLE", "로그인 응답에서 받은 refreshToken: ${result.refreshToken}")
                             TokenStorage.saveTokens(context, result.accessToken, result.refreshToken)
-                            Log.d("GOOGLE", """
-                                ✅ 서버 로그인 성공
-                                ▶ AccessToken: ${result.accessToken}
-                                ▶ RefreshToken: ${result.refreshToken}
-                                ▶ MemberId: ${result.memberId}
-                            """.trimIndent())
-                        } else {
-                            Log.w("GOOGLE", "서버 응답 성공했지만 result가 null입니다.")
                         }
-                    } else {
-                        val errorBody = response.errorBody()?.string()
-                        Log.e("GOOGLE", """
-                            ❌ 서버 응답 오류
-                            ▶ HTTP 코드: ${response.code()}
-                            ▶ 메시지: ${response.message()}
-                            ▶ 에러 바디: $errorBody
-                        """.trimIndent())
+
+                } else {
+                        Log.w("GOOGLE", "서버 응답 실패: ${response.code()}")
                     }
                 }
 
                 override fun onFailure(call: Call<JwtResponse>, t: Throwable) {
-                    Log.e("GOOGLE", "❌ 서버 요청 실패", t)
+                    Log.e("GOOGLE", "서버 요청 실패", t)
                 }
             })
 
     } catch (e: ApiException) {
-        Log.e("GOOGLE", """
-            ❌ 구글 로그인 실패
-            ▶ Status Code: ${e.statusCode}
-            ▶ Message: ${e.message}
-        """.trimIndent(), e)
+        Log.e("GOOGLE", "로그인 실패: ${e.statusCode}", e)
     }
 }

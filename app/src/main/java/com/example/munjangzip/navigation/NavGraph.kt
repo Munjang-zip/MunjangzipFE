@@ -29,7 +29,7 @@ fun NavGraph(navController: NavHostController) {
         composable("petSelect") {
             PetSelect( navController = navController)
         }
-        // 전달된 petName 받아서 PetName.kt로 넘김
+        // ✅ 전달된 petName 받아서 PetName.kt로 넘김
         composable("PetName/{petName}") { backStackEntry ->
             val petName = backStackEntry.arguments?.getString("petName")
             PetName(petName = petName)
