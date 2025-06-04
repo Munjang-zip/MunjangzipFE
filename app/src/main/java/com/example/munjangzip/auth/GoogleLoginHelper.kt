@@ -43,7 +43,12 @@ fun handleGoogleLoginResult(context: Context, result: ActivityResult, onSuccess:
                         val result = response.body()!!.result
                         Log.d("✅TOKEN", "accessToken 저장됨: ${result.accessToken}")
                         TokenManager.saveTokens(context, result.accessToken, result.refreshToken)
-                        // ✅ 성공 시 다음 화면으로 이동
+
+                        // 토큰 저장 확인 로그
+                        val savedAccessToken = TokenManager.getAccessToken(context)
+                        val savedRefreshToken = TokenManager.getRefreshToken(context)
+                        Log.d("✅TOKEN 확인", "accessToken: $savedAccessToken\nrefreshToken: $savedRefreshToken")
+
                         onSuccess()
                     } else {
                         Log.w("GOOGLE", "서버 응답 실패: ${response.code()}")
