@@ -33,7 +33,7 @@ object RetrofitClient {
     }
 
     private val client = OkHttpClient.Builder()
-        .authenticator(TokenAuthenticator())
+        .authenticator(TokenAuthenticator(AppContextProvider.context))
         .addInterceptor(authInterceptor)
         .build()
 
