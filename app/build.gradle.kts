@@ -28,6 +28,9 @@ android {
             "BASE_URL",
             "\"${localProperties.getProperty("BASE_URL")}\""
         )
+        buildFeatures {
+            buildConfig = true
+        }
     }
 
     buildTypes {
