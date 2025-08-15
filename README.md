@@ -10,3 +10,7 @@
 
 ### data
 - Pet.kt : 펫 데이터 
+
+
+### key 관련
+local.properties에 BASE_URL, NATIVE_APP_KEY 작성
