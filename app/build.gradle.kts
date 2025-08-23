@@ -5,6 +5,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    //hilt
+    id("com.google.devtools.ksp")
+    id("com.google.dagger.hilt.android")
 }
 val localProperties = Properties()
 localProperties.load(rootProject.file("local.properties").inputStream())
@@ -89,5 +93,9 @@ dependencies {
 
     // 코루틴을 쓸 경우 (옵션)
     implementation ("com.squareup.retrofit2:adapter-rxjava2:2.9.0")
+
+    //hilt
+    implementation("com.google.dagger:hilt-android:2.56.2")
+    ksp("com.google.dagger:hilt-android-compiler:2.56.2")
 
 }
